@@ -4,10 +4,6 @@ import java.util.Scanner;
 
 public class Manager {
 
-	static int password = 0000;
-	static int userPw;
-	static String searchinput;
-
 	public static void addContact(Contact[] con, Scanner sc) {
 		char addmoreContact = 'y';
 		if (addmoreContact == 'y' || addmoreContact == 'Y') {
@@ -47,9 +43,8 @@ public class Manager {
 
 	public static void searchContactBymobileNo(Contact[] con, Scanner sc) {
 		int numberInput;
-		Scanner ac = new Scanner(System.in);
 		System.out.println("Search Contact based on mobile number: ");
-		numberInput = ac.nextInt();
+		numberInput = sc.nextInt();
 
 		for (int i = 0; i < 5; i++) {
 			// fix this - what is name mobileNo?
@@ -73,6 +68,8 @@ public class Manager {
 		char moreOperations = 'y';
 		Scanner sc = new Scanner(System.in);
 		Contact[] con = new Contact[5];
+		int password = 0000, userPw;
+		String searchinput;
 
 		do {
 			System.out.print("Enter Password to unlock mobile : ");
