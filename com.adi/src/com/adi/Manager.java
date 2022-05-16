@@ -1,23 +1,16 @@
 package com.adi;
 
-import java.util.*;
-import java.time.LocalDate;
 import java.util.Scanner;
 
-public class Contactt 
-{
-	
-	public static String name;
-	public static int mobileNo;
-	public static String emailId;
-	
+public class Manager {
+
 	public static int password=0000;
 	public static int userPw;
-	public static char addmoreContact='y', moreOperations='y';
-	public static int numberInput; public static String searchinput;
+	public static int numberInput; 
+	public static String searchinput;
 	
-	Scanner sc=new Scanner(System.in);
-	public static Contactt[] con=new Contactt[5];
+	//Scanner sc=new Scanner(System.in);
+	static Contact[] con = new Contact[5];
 	
 	con[0]=con1;
 	con[1]=con2;		
@@ -95,13 +88,23 @@ public class Contactt
 	
 	
 	
+
+	public static void showAllContacts()
+	{
+		System.out.println("Contact No."+"\t"+"Name"+"\t\t"+"Email Id");
+
 	
-	
+		for(int i=0;i<5;i++)
+	{
+		
+			System.out.println(mobileNo+"\t"+name+"\t\t"+emailId);
+	}
+}
 	
 	public static void main(String[] args) 
 	{
-		
-		
+		char addmoreContact='y', moreOperations='y';
+	
 		Scanner sc=new Scanner(System.in);
 		
 		do
@@ -123,60 +126,33 @@ public class Contactt
 			
 					int input = sc.nextInt();
 					
-					
-					
 					switch(input) 
 					{
 						case 1:
-							
 							addContact();
-							
 							break;
 						
-						
 						case 2://Search Contact base on Name, Mobile or Email
-							
 							
 							searchContact();
 							searchContactBymobileNo();
 							
 						break;
-
-						
-						
+							
+						case 4://To display all the contact details:
+							showAllContacts();
+							break;
 						default:
 							
 							System.out.println("Choose correct option  ");
-					
-							
-							
-						case 4://To display all the contact details:
-							
-							System.out.println("Contact No."+"\t"+"Name"+"\t\t"+"Email Id");
-
-							
-							for(int i=0;i<5;i++)
-							{
-								
-									System.out.println(mobileNo+"\t"+name+"\t\t"+emailId);
-							}
-						break;
 						
 					}//Switch case loop closed	
 					System.out.println("Do you want to use further operations?..y/n : ");
 					moreOperations=sc.next().charAt(0);
 		
 		}//while loop for more operations closed 
-					
-	}//main method closed
-}//class closed
-					
-			
-			
-			
-	
-	
-	
 
-		
 
+}
+}
+}
