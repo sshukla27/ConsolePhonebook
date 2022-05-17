@@ -4,57 +4,109 @@ import java.util.Scanner;
 
 public class Manager {
 
-	public static void addContact(Contact[] con, Scanner sc, int count)
-	
+	public static void addContact(Contact[] con, Scanner sc, int count)	
 	{
-				con[count]=new Contact();
+				con[count] = new Contact();
 				System.out.print("\n" + "Enter Mobile number : ");
 				con[count].setMobileNo(sc.nextLong());
 
 				System.out.print("Contact Name : ");
 				con[count].setName(sc.next()); 
+				
 				System.out.print("Email : ");
 				con[count].setEmailId(sc.next());
 
 				System.out.println("Contact Added");
 	}
 
-/*	public static void searchContact(Contact[] con, Scanner sc) {
-		System.out.println("Search Contact based on Name or Email: ");
+	public static int searchContact(Contact[] con, Scanner sc, int count) {
+		int location = -1;
+		System.out.print("Search Contact by 1 Name 2 Email 3 Mobile : ");
+		int choice = sc.nextInt();
+		System.out.print("Enter Search Term : ");
 		String searchInput = sc.next();
 
-		for (int i = 0; i < 5; i++) {
-			// fix this - what is name emailId?
-			if (con[count].name == searchInput || (emailId) == searchInput) {
-				// fix this - way to access fields in class is incorrect
-				System.out.println(mobileNo + "\t" + name + "\t\t" + emailId);
+		for (int i = 0; i < count; i++) {
+			if (choice == 1 && con[i].getName().equals(searchInput)) {
+				System.out.println(con[i].getMobileNo() + "\t" + con[i].getName() + "\t\t" + con[i].getEmailId());
+				location = i;
 				break;
 			}
-		}
-		System.out.println(searchInput + " isn't available.");
-	}
-
-	public static void searchContactBymobileNo(Contact[] con, Scanner sc) {
-		int numberInput;
-		System.out.println("Search Contact based on mobile number: ");
-		numberInput = sc.nextInt();
-
-		for (int i = 0; i < 5; i++) {
-			// fix this - what is name mobileNo?
-			if (mobileNo == numberInput) {
-				// fix this - way to access fields in class is incorrect
-				System.out.println(mobileNo + "\t" + name + "\t\t" + emailId);
+			if (choice == 2 && con[i].getEmailId().equals(searchInput)) {
+				System.out.println(con[i].getMobileNo() + "\t" + con[i].getName() + "\t\t" + con[i].getEmailId());
+				location = i;
 				break;
 			}
+			if (choice == 3 && con[i].getMobileNo() == Long.valueOf(searchInput)) {
+				System.out.println(con[i].getMobileNo() + "\t" + con[i].getName() + "\t\t" + con[i].getEmailId());
+				location = i;
+				break;
+			}			
 		}
-		System.out.println(numberInput + " isn't available.");
+		if(location == -1)
+			{
+			System.out.println(searchInput + " isn't available.");
+			}
+		return location;
 	}
-*/
+	
+	public static void editContact(Contact[] con, Scanner sc, int count)
+	{
+		int position = searchContact(con, sc, count);
+		if(position != -1) 
+		{	
+			System.out.print("\n" + "Enter Mobile number : ");
+			con[position].setMobileNo(sc.nextLong());
+
+			System.out.print("Contact Name : ");
+			con[position].setName(sc.next()); 
+			
+			System.out.print("Email : ");
+			con[position].setEmailId(sc.next());
+
+			System.out.println("Contact Updated");
+		}
+	}
+	public static boolean deleteContact(Contact[] con, Scanner sc, int count)
+	{
+		boolean status = false;
+		int position = searchContact(con, sc, count);
+		if(position != -1) 
+		{		
+			// case 1 - single contact 
+			if(count == 1)
+			{
+				con[position].setMobileNo(0);			
+				con[position].setName(""); 
+				con[position].setEmailId("");
+			}			
+			else // case count > 1 
+			{
+				// deleting contact at lower index when contact(s) are available at higher index
+				for(int i = position; i < count-1; i++)
+				{					
+					con[i]= con[i+1]; // object copied into object
+				}	
+				con[count]=null;
+			}
+			System.out.println("Contact Deleted");
+			status = true;
+		}
+		return status;
+	}
+
 	public static void showAllContacts(Contact[] con, int count) {
 		System.out.println("Contact No." + "\t" + "Name" + "\t\t" + "Email Id");
-		for (int i = 0; i < count; i++) {
-			System.out.println(con[i].getMobileNo() + "\t" + con[i].getName() + "\t\t" + con[i].getEmailId());
+		if(count == 0)
+		{
+			System.out.println("\n\n\t There are no contacts available!");	
 		}
+		else
+		{
+			for (int i = 0; i < count; i++) {
+				System.out.println(con[i].getMobileNo() + "\t" + con[i].getName() + "\t\t" + con[i].getEmailId());
+			}	
+		}		
 	}
 
 	public static void main(String[] args) {
@@ -63,8 +115,7 @@ public class Manager {
 		Scanner sc = new Scanner(System.in);
 		Contact[] con = new Contact[5];
 		int password = 0000, userPw;
-		String searchinput;
-
+		
 		do {
 			System.out.print("Enter Password to unlock mobile : ");
 			userPw = sc.nextInt();
@@ -84,15 +135,20 @@ public class Manager {
 				count++;
 				break;
 
-			case 2:// Search Contact base on Name, Mobile or Email
-//				searchContact(con, sc);
-	//			searchContactBymobileNo(con, sc);
+			case 2:// edit Contact
+				editContact(con, sc, count);	
 				break;
 			case 3:
+				if(deleteContact(con, sc, count))
+					{
+					count--;					
+					}
 				break;
 			case 4:// To display all the contact details:
-				showAllContacts(con, count);
-				
+				showAllContacts(con, count);				
+				break;
+			case 5:// Search
+				searchContact(con,sc,count);				
 				break;
 			default:
 				System.out.println("Choose correct option  ");
