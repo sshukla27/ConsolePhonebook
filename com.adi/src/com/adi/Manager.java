@@ -4,35 +4,28 @@ import java.util.Scanner;
 
 public class Manager {
 
-	public static void addContact(Contact[] con, Scanner sc) {
-		char addmoreContact = 'y';
-		if (addmoreContact == 'y' || addmoreContact == 'Y') {
-			// fix this - at a time we will be adding single contact and not all at once,
-			// update this
-			for (int i = 0; i < 5; i++) {
+	public static void addContact(Contact[] con, Scanner sc, int count)
+	
+	{
+				con[count]=new Contact();
 				System.out.print("\n" + "Enter Mobile number : ");
-				con[i].mobileNo = sc.nextInt();
+				con[count].setMobileNo(sc.nextLong());
 
 				System.out.print("Contact Name : ");
-				con[i].name = sc.next();
-
+				con[count].setName(sc.next()); 
 				System.out.print("Email : ");
-				con[i].emailId = sc.next();
+				con[count].setEmailId(sc.next());
 
 				System.out.println("Contact Added");
-			}
-			System.out.print("\n" + "Do you want to add more contacts?.. y/n :");
-			addmoreContact = sc.next().charAt(0);
-		}
 	}
 
-	public static void searchContact(Contact[] con, Scanner sc) {
+/*	public static void searchContact(Contact[] con, Scanner sc) {
 		System.out.println("Search Contact based on Name or Email: ");
 		String searchInput = sc.next();
 
 		for (int i = 0; i < 5; i++) {
 			// fix this - what is name emailId?
-			if (name == searchInput || (emailId) == searchInput) {
+			if (con[count].name == searchInput || (emailId) == searchInput) {
 				// fix this - way to access fields in class is incorrect
 				System.out.println(mobileNo + "\t" + name + "\t\t" + emailId);
 				break;
@@ -56,16 +49,17 @@ public class Manager {
 		}
 		System.out.println(numberInput + " isn't available.");
 	}
-
-	public static void showAllContacts(Contact[] con) {
+*/
+	public static void showAllContacts(Contact[] con, int count) {
 		System.out.println("Contact No." + "\t" + "Name" + "\t\t" + "Email Id");
-		for (int i = 0; i < 5; i++) {
+		for (int i = 0; i < count; i++) {
 			System.out.println(con[i].getMobileNo() + "\t" + con[i].getName() + "\t\t" + con[i].getEmailId());
 		}
 	}
 
 	public static void main(String[] args) {
 		char moreOperations = 'y';
+		int count=0;
 		Scanner sc = new Scanner(System.in);
 		Contact[] con = new Contact[5];
 		int password = 0000, userPw;
@@ -86,17 +80,19 @@ public class Manager {
 
 			switch (input) {
 			case 1:
-				addContact(con, sc);
+				addContact(con, sc, count);
+				count++;
 				break;
 
 			case 2:// Search Contact base on Name, Mobile or Email
-				searchContact(con, sc);
-				searchContactBymobileNo(con, sc);
+//				searchContact(con, sc);
+	//			searchContactBymobileNo(con, sc);
 				break;
 			case 3:
 				break;
 			case 4:// To display all the contact details:
-				showAllContacts(con);
+				showAllContacts(con, count);
+				
 				break;
 			default:
 				System.out.println("Choose correct option  ");
